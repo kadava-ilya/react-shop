@@ -17,12 +17,14 @@ function App() {
   //при нажатии на плюс у карточки в пустой массив корзины ->
   //записываем добавленный товар и отображаем в корзине
   const onAddToCart = (obj) => {
-
     axios.post('https://60e2e82a9103bd0017b4763d.mockapi.io/cart', obj);
+    setCartItems(prev => [...prev, obj])
+  }
 
-    if (cartItems !== obj) {
-      setCartItems(prev => [...prev, obj])
-    }
+  // удаление айтемов из корзины
+  const onRemoveCartItems = (id) => {
+    // axios.delete(`https://60e2e82a9103bd0017b4763d.mockapi.io/cart/${id}`);
+    setCartItems(prev => prev.filter(item => item.id !== id));
   }
 
   //через event получаем данные из input и сетим в searchValue
@@ -53,7 +55,7 @@ function App() {
 
   return (
     <div className="wrapper clear">
-      {cartOpened && <Drawer items={cartItems} onClose={() => { setCartOpened(false) }} />}
+      {cartOpened && <Drawer items={cartItems} onClose={() => { setCartOpened(false) }} onRemove={onRemoveCartItems} />}
       <Header onCartClick={() => setCartOpened(true)} />
       <div className="content p-40">
         <div className="d-flex align-center justify-between mb-40">

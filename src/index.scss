@@ -187,3 +187,36 @@ header {
     }
   }
 }
+
+.cartEmpty {
+  text-align: center;
+
+  p {
+    width: 280px;
+    line-height: 24px;
+  }
+
+  .greenBtn {
+    width: 245px;
+    height: 55px;
+    border: none;
+    margin-top: 20px;
+    background-color: #9dd458;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 18px;
+
+    &:hover {
+      img {
+        transform: translateX(3px);
+      }
+    }
+
+    img {
+      position: relative;
+      top: 1px;
+      margin-right: 15px;
+      transition: transform 0.15s ease-in-out;
+    }
+  }
+}
