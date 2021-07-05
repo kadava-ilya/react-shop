@@ -8,7 +8,9 @@ function Card(props) {
     setIsAdded(!isAdded);
   };
 
-  console.log(isAdded);
+  React.useEffect(() => {
+    console.log("Переменная isAdded изменилась");
+  }, [isAdded]);
 
   return (
     <div className={styles.card}>
