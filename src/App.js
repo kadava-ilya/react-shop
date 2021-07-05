@@ -43,10 +43,12 @@ function App() {
         onFavoriteClick={() => console.log("Добавили в закладки")}
         onPlusClick={onAddToCart} />);
 
-  //Получаем данные всех кроссовок с сервера
+  //Получаем данные всех кроссовок с сервера при загрузке страницы единожды
   React.useEffect(() => {
     axios.get('https://60e2e82a9103bd0017b4763d.mockapi.io/sneakers')
-      .then(res => { setItems(res.data) })
+      .then(res => { setItems(res.data); });
+    axios.get('https://60e2e82a9103bd0017b4763d.mockapi.io/cart')
+      .then(res => { setCartItems(res.data) })
   }, []);
 
   return (
