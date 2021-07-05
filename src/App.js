@@ -14,16 +14,24 @@ function App() {
   const [cartItems, setCartItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
 
+  //при нажатии на плюс у карточки в пустой массив корзины ->
+  //записываем добавленный товар и отображаем в корзине
   const onAddToCart = (obj) => {
+
+    axios.post('https://60e2e82a9103bd0017b4763d.mockapi.io/cart', obj);
+
     if (cartItems !== obj) {
       setCartItems(prev => [...prev, obj])
     }
   }
 
+  //через event получаем данные из input и сетим в searchValue
   const onChangeSearchInput = (event) => {
     setSearchValue(event.target.value);
   }
 
+  //компонента карточек. 
+  //вывод карточек идет по фильтрации с текста input
   const cardItemsArr = items
     .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
     .map((item, index) =>
@@ -35,6 +43,7 @@ function App() {
         onFavoriteClick={() => console.log("Добавили в закладки")}
         onPlusClick={onAddToCart} />);
 
+  //Получаем данные всех кроссовок с сервера
   React.useEffect(() => {
     axios.get('https://60e2e82a9103bd0017b4763d.mockapi.io/sneakers')
       .then(res => { setItems(res.data) })
