@@ -1,6 +1,6 @@
 function Drawer({ onClose, onRemove, items = [] }) {
   const cartItemsArr = items.map((obj) => (
-    <div className="cart-item d-flex align-center mb-20">
+    <div key={obj.id} className="cart-item d-flex align-center mb-20">
       <div
         style={{ backgroundImage: `url(${obj.image})` }}
         className="cartItemImg"
@@ -31,8 +31,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
           />
         </h2>
 
-
-        {items.length > 0 ?
+        {items.length > 0 ? (
           <div>
             <div className="items">{cartItemsArr}</div>
             <div className="cart-total-block">
@@ -53,22 +52,25 @@ function Drawer({ onClose, onRemove, items = [] }) {
               </button>
             </div>
           </div>
-          :
+        ) : (
           <div className="cartEmpty d-flex align-center justify-center flex-column flex">
-            <img className="mb-20" src="img/empty-cart.jpg" width={120} height={120} alt="" />
+            <img
+              className="mb-20"
+              src="img/empty-cart.jpg"
+              width={120}
+              height={120}
+              alt=""
+            />
             <h2>Корзина пустая</h2>
-            <p className="opacity-6">Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ</p>
+            <p className="opacity-6">
+              Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ
+            </p>
             <button onClick={onClose} className="greenBtn">
               <img src="/img/arrow3.svg" alt="Arrow" />
               Вернуться назад
             </button>
-          </div>}
-
-
-
-
-
-
+          </div>
+        )}
       </div>
     </div>
   );

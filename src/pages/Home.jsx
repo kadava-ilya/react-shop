@@ -5,19 +5,31 @@ function Home({ items,
     setSearchValue,
     onAddToFavorite,
     onAddToCart,
-    onChangeSearchInput }) {
+    cartItems,
+    onChangeSearchInput,
+    isLoading }) {
     //компонента карточек. 
     //вывод карточек идет по фильтрации с текста input
-    const cardItemsArr = items
-        .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-        .map((item, index) =>
-            <Card
-                key={index}
-                onFavorite={(obj) => onAddToFavorite(obj)}
-                onPlusClick={(obj) => onAddToCart(obj)}
-                {...item}
-            />
+
+    const renderItems = () => {
+        const filteredItems = items.filter((item) =>
+            item.title.toLowerCase().includes(searchValue.toLowerCase())
         );
+
+        return (isLoading
+            ? [...Array(8)]
+            : filteredItems).map((item, index) =>
+                <Card
+                    key={index}
+                    onFavorite={(obj) => onAddToFavorite(obj)}
+                    onPlusClick={(obj) => onAddToCart(obj)}
+                    isLoading={isLoading}
+                    cartAdded={cartItems.some(obj => Number(obj.id) === Number(item.id))}
+                    {...item}
+                />
+            );
+    }
+
     return (
         <div className="content p-40">
             <div className="d-flex align-center justify-between mb-40">
@@ -36,7 +48,7 @@ function Home({ items,
                 </div>
             </div>
             <div className="d-flex flex-wrap">
-                {cardItemsArr}
+                {renderItems()}
             </div>
         </div>
     )
