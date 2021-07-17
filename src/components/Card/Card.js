@@ -1,4 +1,5 @@
 import React from "react";
+import AppContext from "../../context";
 import ContentLoader from "react-content-loader";
 import styles from "./Card.module.scss";
 
@@ -9,17 +10,18 @@ function Card({
   price,
   onFavorite,
   onPlusClick,
-  cartAdded = false,
+  // cartAdded = false,
   favorited = false,
   isLoading = false,
 }) {
-  const [isAdded, setIsAdded] = React.useState(cartAdded);
+  const { isItemAdded } = React.useContext(AppContext); // контекст
+  // const [isAdded, setIsAdded] = React.useState(cartAdded);
   const [isFavorite, setIsFavorite] = React.useState(favorited);
 
   const onPlusClicked = () => {
     console.log("Добавили в корзину");
     onPlusClick({ id, title, image, price });
-    setIsAdded(!isAdded);
+    // setIsAdded(!isAdded);
   };
 
   const onFavoriteClicked = () => {
@@ -28,9 +30,9 @@ function Card({
     setIsFavorite(!isFavorite);
   };
 
-  React.useEffect(() => {
-    // console.log("Переменная isAdded изменилась");
-  }, [isAdded]);
+  // React.useEffect(() => {
+  //   console.log("Переменная isAdded изменилась");
+  // }, [isAdded]);
 
   return (
     <div className={styles.card}>
@@ -68,7 +70,9 @@ function Card({
             <img
               className={styles.plus}
               onClick={onPlusClicked}
-              src={isAdded ? "/img/btn-checked.svg" : "/img/btn-plus.svg"}
+              src={
+                isItemAdded(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"
+              }
               alt="Plus"
             />
           </div>

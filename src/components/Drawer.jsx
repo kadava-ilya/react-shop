@@ -32,7 +32,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
         </h2>
 
         {items.length > 0 ? (
-          <div>
+          <div className="d-flex flex-column flex">
             <div className="items">{cartItemsArr}</div>
             <div className="cart-total-block">
               <ul>

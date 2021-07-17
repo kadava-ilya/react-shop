@@ -1,3 +1,4 @@
+import React from 'react';
 import Card from '../components/Card/Card';
 
 function Home({ items,
@@ -5,9 +6,12 @@ function Home({ items,
     setSearchValue,
     onAddToFavorite,
     onAddToCart,
-    cartItems,
+    // cartItems,
     onChangeSearchInput,
     isLoading }) {
+
+
+
     //компонента карточек. 
     //вывод карточек идет по фильтрации с текста input
 
@@ -24,7 +28,7 @@ function Home({ items,
                     onFavorite={(obj) => onAddToFavorite(obj)}
                     onPlusClick={(obj) => onAddToCart(obj)}
                     isLoading={isLoading}
-                    cartAdded={cartItems.some(obj => Number(obj.id) === Number(item.id))}
+                    // cartAdded={isItemAdded(item && item.id)}
                     {...item}
                 />
             );
