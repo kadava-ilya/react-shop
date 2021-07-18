@@ -2,13 +2,12 @@ import React from "react";
 import axios from "axios";
 
 import Info from "./Info";
-import AppContext from "../context";
-import { reject, resolve } from "q";
+import { useCart } from "./hooks/useCart";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Drawer({ onClose, onRemove, items = [] }) {
-  const { cartItems, setCartItems } = React.useContext(AppContext);
+  const { cartItems, setCartItems, totalPrice } = useCart();
   const [isOrderCompleted, setIsOrderCompleted] = React.useState(false);
   const [orderId, setOrderId] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -27,7 +26,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
       for (let i = 0; i < cartItems.length; i++) {
         const item = cartItems[i];
         await axios.delete(
-          "https://60e2e82a9103bd0017b4763d.mockapi.io/cart" + item.id
+          "https://60e2e82a9103bd0017b4763d.mockapi.io/cart/" + item.id
         );
         await delay(1000);
       }
@@ -77,12 +76,17 @@ function Drawer({ onClose, onRemove, items = [] }) {
                 <li>
                   <span>Итого:</span>
                   <div></div>
-                  <b>15 999 грн</b>
+                  <b>{totalPrice} грн</b>
                 </li>
                 <li>
                   <span>Скидка 10%:</span>
                   <div></div>
-                  <b>14 500 грн</b>
+                  <b>{(totalPrice / 100) * 10} грн</b>
+                </li>
+                <li>
+                  <span>Цена со скидкой:</span>
+                  <div></div>
+                  <b>{totalPrice * 0.9} грн</b>
                 </li>
               </ul>
               <button
