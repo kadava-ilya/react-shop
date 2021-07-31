@@ -22,9 +22,14 @@ function Header(props) {
           <img width={18} height={18} src="/img/cart.svg" alt="Корзина" />
           <span>{totalPrice} грн</span>
         </li>
-        <li className="mr-20 cu-p">
+        <li className="mr-20 cu-p favorited-block">
           <Link to="/favorites">
             <img width={18} height={18} src="/img/heart.svg" alt="Закладки" />
+            {props.favorites.length !== 0 ? (
+              <span id="favorite-num">{props.favorites.length}</span>
+            ) : (
+              <span></span>
+            )}
           </Link>
         </li>
         <li>

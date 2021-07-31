@@ -4,7 +4,7 @@ import Card from '../components/Card/Card';
 import AppContext from '../context';
 
 function Orders() {
-    const { onAddToFavorite, onAddToCart } = React.useContext(AppContext)
+    // const { onAddToFavorite, onAddToCart } = React.useContext(AppContext);
     const [orders, setOrders] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
 
@@ -18,6 +18,13 @@ function Orders() {
                 //что есть в prev и добавляем obj.items
                 //второй пустой, куда записываем всё
                 setOrders(data.reduce((prev, obj) => [...prev, ...obj.items], []));
+
+                // setOrders(data.map(obj => ));
+                // setOrders(data);
+                // console.log(data.items);
+
+                // const obj = {}
+
                 setIsLoading(false);
             } catch (error) {
                 alert('Ошибка при запросе заказов');
@@ -31,16 +38,21 @@ function Orders() {
             <div className="d-flex align-center justify-between mb-40">
                 <h1>Мои заказы</h1>
             </div>
+
             <div className="d-flex flex-wrap">
                 {isLoading
                     ? [...Array(8)]
                     : orders
-                        .map((item, index) => {
-                            <Card
-                                key={index}
-                                isLoading={isLoading}
-                                {...item} />
-                        })
+                        .map((item, index) => (
+                            <>
+                                {/* <h1>{`Заказ №${item.id}`}</h1> */}
+                                <Card
+                                    key={index}
+                                    isLoading={isLoading}
+                                    {...item}
+                                />
+                            </>
+                        ))
                 }
             </div>
         </div>

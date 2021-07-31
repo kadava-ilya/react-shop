@@ -33,7 +33,8 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
         await delay(1000);
       }
     } catch (error) {
-      alert("Ошибка при создании заказа :С");
+      // alert("Ошибка при создании заказа :С");
+      console.error(error);
     }
     setIsLoading(false);
   };
@@ -81,14 +82,14 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
                   <b>{totalPrice} грн</b>
                 </li>
                 <li>
-                  <span>Скидка 10%:</span>
+                  <span>Скидка 5%:</span>
                   <div></div>
-                  <b>{(totalPrice / 100) * 10} грн</b>
+                  <b>{(Math.floor((totalPrice / 100) * 5) * 100) / 100} грн</b>
                 </li>
                 <li>
                   <span>Цена со скидкой:</span>
                   <div></div>
-                  <b>{totalPrice * 0.9} грн</b>
+                  <b>{(Math.floor(totalPrice * 0.95) * 100) / 100} грн</b>
                 </li>
               </ul>
               <button

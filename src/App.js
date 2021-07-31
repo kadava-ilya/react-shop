@@ -19,17 +19,29 @@ function App() {
   const [favorites, setFavorites] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
+
   //при нажатии на плюс у карточки в пустой массив корзины ->
   //записываем добавленный товар и отображаем в корзине
   const onAddToCart = async (obj) => {
+    const findItem = cartItems.find(cartObj => Number(cartObj.parentId) === Number(obj.id));
     try {
-      if (cartItems.find(cartObj => Number(cartObj.parentId) === Number(obj.id))) {
-
-        setCartItems(prev => prev.filter(item => Number(item.id) !== Number(obj.id)));
-        await axios.delete(`https://60e2e82a9103bd0017b4763d.mockapi.io/cart/${obj.id}`);
+      if (findItem) {
+        setCartItems(prev => prev.filter(item => Number(item.parentId) !== Number(obj.id)));
+        await axios.delete(`https://60e2e82a9103bd0017b4763d.mockapi.io/cart/${findItem.id}`);
       } else {
-        await axios.post('https://60e2e82a9103bd0017b4763d.mockapi.io/cart', obj);
-        setCartItems(prev => [...prev, obj])
+        // const { data } = await axios.post('https://60e2e82a9103bd0017b4763d.mockapi.io/cart', obj);
+        // setCartItems(prev => [...prev, data]);
+        setCartItems(prev => [...prev, obj]);
+        const { data } = await axios.post('https://60e2e82a9103bd0017b4763d.mockapi.io/cart', obj);
+        setCartItems(prev => prev.map(item => {
+          if (item.parentId === data.parentId) {
+            return {
+              ...item,
+              id: data.id,
+            };
+          }
+          return item;
+        }))
       }
     } catch (error) {
       alert('Товар не был добавлен в корзину')
@@ -72,8 +84,8 @@ function App() {
   //пробегаем по массиву в корщине и вытискиваем parentId 
   //и сравниваем его с реальным id из карточки
   const isItemAdded = (id) => {
-    return cartItems.some(obj => Number(obj.parentId) === Number(id))
-  }
+    return cartItems.some(obj => Number(obj.parentId) === Number(id));
+  };
 
   //Получаем данные всех кроссовок с сервера при загрузке страницы единожды
   React.useEffect(() => {
@@ -116,7 +128,7 @@ function App() {
     <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, onAddToFavorite, onAddToCart, setCartOpened, setCartItems }}>
       <div className="wrapper clear">
         <Drawer items={cartItems} onClose={() => { setCartOpened(false) }} onRemove={onRemoveCartItems} opened={cartOpened} />
-        <Header onCartClick={() => setCartOpened(true)} />
+        <Header onCartClick={() => setCartOpened(true)} favorites={favorites} />
         <Route path="/" exact>
           <Home
             items={items}
